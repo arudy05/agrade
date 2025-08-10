@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "agrade-exceptions.hpp"
 
 namespace agrade
 { // namespace for all things agrade
@@ -28,57 +27,17 @@ namespace agrade
 
     public:
         // Constructors -----------------------------------------------------------------
-        Component() :                               // default component name and weight
-        name{"default"}, grade{0}, weight{1},
-        hasChildren{false}, children{nullptr} {}
-
-        Component(std::string &n) :                  // component name with default weight
-        name{n}, grade{0}, weight{1},
-        hasChildren{false}, children{nullptr} {}
-
-        Component(std::string &n, double &w) :        // component name with set weight
-        name{n}, grade{0}, weight{w},
-        hasChildren{false}, children{nullptr} {}
+        Component();                                 // default component name and weight
+        Component(std::string &n);                   // component name with default weight
+        Component(std::string &n, double &w);        // component name with set weight
 
         // Getters and setters ----------------------------------------------------------
-
-        const std::string &getName() {
-            // Returns name as a const
-            return name;
-        }
-
-        void setName(std::string &n) {
-            // Sets name
-            name = n;
-        }
-
-        const double &getGrade() {
-            // Returns the grade of a component.
-            // If this component has children, we get this grade from the assicated ComponentGroup
-            if (hasChildren) grade = children->calculateGrade();
-            return grade;
-        }
-
-        void setGrade(double &g) {
-            // Sets the grade of a component.
-            // If this component has children, then we should not be setting its grade using this function.
-            // Additionally, the grade should not be < 0 (a negative number).
-            if (hasChildren) throw agrade::componentHasChildren();
-            else if (g < 0) throw agrade::componentGradeError();
-            else grade = g;
-        }
-
-        const double &getWeight() {
-            // returns weight of the component
-            return weight;
-        }
-
-        void setWeight(double &w) {
-            // sets the weight of a component.
-            // the weight of a component cannot and should not be <= zero
-            if (w <= 0) throw agrade::componentWeightError();
-            weight = w;
-        }
+        const std::string &getName();               // name
+        void setName(std::string &n);
+        const double &getGrade();                   // grade
+        void setGrade(double &g);
+        const double &getWeight();                  // weight
+        void setWeight(double &w);
     };
 
     class ComponentGroup {
@@ -89,40 +48,14 @@ namespace agrade
         // Constructors -----------------------------------------------------------------
         ComponentGroup() {}         // default constructor, no need to do anything
         // Getting members --------------------------------------------------------------
-        Component* getMember(std::string &n) {
-            for (int i = 0; i < members.size(); ++i) {
-                if (members[i]->getName() == n) return members[i];
-            }
-            throw agrade::componentNotFoundError();
-            return nullptr;
-        }
+        Component* getMember(std::string &n);
         // Adding members ---------------------------------------------------------------
         // Each function corresponds to a constructor of Component
-        void addMember() {
-            members.push_back(new Component());
-        }
-        void addMember(std::string &n) {
-            members.push_back(new Component(n));
-        }
-        void addMember(std::string &n, double &w) {
-            members.push_back(new Component(n, w));
-        }
+        void addMember();
+        void addMember(std::string &n);
+        void addMember(std::string &n, double &w);
         // Calculating total grade ------------------------------------------------------
-        double calculateGrade() {
-            if (members.size() == 0) {
-                throw agrade::componentGroupNoChildrenError();
-                return 0;
-            }
-            double numerator = 0;
-            double denominator = 0;
-
-            for (int i = 0; i < members.size(); ++i) {
-                numerator += members[i]->getGrade()*members[i]->getWeight();
-                denominator += members[i]->getWeight();
-            }
-
-            return numerator/denominator;
-        }
+        double calculateGrade();
     };
 
     class Course : public ComponentGroup {
