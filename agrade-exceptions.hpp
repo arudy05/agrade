@@ -43,10 +43,10 @@ namespace agrade {
         BaseException("Specified component does not exist") {}
     };
 
-    class componentGroupNoChildrenError : public BaseException {
+    class componentNoChildrenError : public BaseException {
     public:
-        componentGroupNoChildrenError() :
-        BaseException("Component group does not have children; cannot calculate grade") {}
+        componentNoChildrenError() :
+        BaseException("Component does not have children; cannot calculate grade") {}
     };
 }
 

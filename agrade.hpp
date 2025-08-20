@@ -23,7 +23,10 @@ namespace agrade
          it is said to have children, in which case hasChildren = true and children is a pointer
          to a ComponentGroup*/
         bool hasChildren;
-        ComponentGroup *children;   // if hasChildren = false, this is a nullptr
+        std::vector<Component*> children;   // if hasChildren = false, this is empty
+
+        // Helper functions ------------------------------------------------------------------
+        double calculateGrade();
 
     public:
         // Constructors -----------------------------------------------------------------
@@ -38,29 +41,16 @@ namespace agrade
         void setGrade(double &g);
         const double &getWeight();                  // weight
         void setWeight(double &w);
+
+        // Adding child components ------------------------------------------------------
+        void addChild();                            // each corresponds to a constructor
+        void addChild(std::string &n);
+        void addChild(std::string &n, double &w);
+
+        // Accessing child components ---------------------------------------------------
+        Component* operator[](int i);               // by index (operator overload)
+        Component* getMember(std::string &n);       // by component name
     };
 
-    class ComponentGroup {
-        /* Each ComponentGroup object represents a group of components from which
-        we can calculate an average or weighted total mark for this group. */
-        std::vector<Component*> members; // Vector of pointers to the ComponentGroup's members.
-    public:
-        // Constructors -----------------------------------------------------------------
-        ComponentGroup() {}         // default constructor, no need to do anything
-        // Getting members --------------------------------------------------------------
-        Component* getMember(std::string &n);
-        // Adding members ---------------------------------------------------------------
-        // Each function corresponds to a constructor of Component
-        void addMember();
-        void addMember(std::string &n);
-        void addMember(std::string &n, double &w);
-        // Calculating total grade ------------------------------------------------------
-        double calculateGrade();
-    };
-
-    class Course : public ComponentGroup {
-        std::map<std::string, double> gradeDist;
-        std::string mark;
-    };
 }
 #endif

@@ -26,6 +26,23 @@ const std::string &Component::getName() {
     return name;
 }
 
+// Helper functions
+double Component::calculateGrade() {
+    if (children.size() == 0 || !hasChildren) {
+        throw agrade::componentNoChildrenError();
+        return 0;
+    }
+    double numerator = 0;
+    double denominator = 0;
+
+    for (int i = 0; i < children.size(); ++i) {
+        numerator += children[i]->getGrade()*children[i]->getWeight();
+        denominator += children[i]->getWeight();
+    }
+
+    return numerator/denominator;
+}
+
 // Getter/setter functions
 void Component::setName(std::string &n) {
     name = n;
@@ -33,7 +50,7 @@ void Component::setName(std::string &n) {
 
 const double &Component::getGrade() {
     // If this component has children, we get this grade from the assicated ComponentGroup
-    if (hasChildren) grade = children->calculateGrade();
+    if (hasChildren) grade = calculateGrade();
     return grade;
 }
 
@@ -55,44 +72,30 @@ void Component::setWeight(double &w) {
     weight = w;
 }
 
+// Adding children
+void Component::addChild() {
+    if (!hasChildren) hasChildren = true;
+    children.push_back(new Component());
+}
+void Component::addChild(std::string &n) {
+    if (!hasChildren) hasChildren = true;
+    children.push_back(new Component(n));
+}
+void Component::addChild(std::string &n, double &w) {
+    if (!hasChildren) hasChildren = true;
+    children.push_back(new Component(n, w));
+}
 
-////////////////////////////
-// agrade::ComponentGroup //
-///////////////////////////
 
-// Getting members
-Component* ComponentGroup::getMember(std::string &n) {
-    for (int i = 0; i < members.size(); ++i) {
-        if (members[i]->getName() == n) return members[i];
+// Accessing children
+Component* Component::operator[](int i) {
+    // std::vector should handle any out-of-bounds stuff on its own
+    return children[i];
+}
+Component* Component::getMember(std::string &n) {
+    for (int i = 0; i < children.size(); ++i) {
+        if (children[i]->getName() == n) return children[i];
     }
     throw agrade::componentNotFoundError();
     return nullptr;
-}
-
-// Adding members
-void ComponentGroup::addMember() {
-    members.push_back(new Component());
-}
-void ComponentGroup::addMember(std::string &n) {
-    members.push_back(new Component(n));
-}
-void ComponentGroup::addMember(std::string &n, double &w) {
-    members.push_back(new Component(n, w));
-}
-
-// Calculating grade
-double ComponentGroup::calculateGrade() {
-    if (members.size() == 0) {
-        throw agrade::componentGroupNoChildrenError();
-        return 0;
-    }
-    double numerator = 0;
-    double denominator = 0;
-
-    for (int i = 0; i < members.size(); ++i) {
-        numerator += members[i]->getGrade()*members[i]->getWeight();
-        denominator += members[i]->getWeight();
-    }
-
-    return numerator/denominator;
 }
