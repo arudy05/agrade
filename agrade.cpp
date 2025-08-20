@@ -4,9 +4,7 @@ using namespace agrade;
 
 // This file contains function definitions for the classes in the agrade namespace.
 // This is done such that agrade.hpp outlines the structure of the namespace
-// and agrade.cpp contains actual function definitions. This is mainly because
-// public functions in the Component and ComponentGroup classes are used in the
-// other so I'm effectively forward declaring everything to avoid future headaches.
+// and agrade.cpp contains actual function definitions.
 
 ///////////////////////
 // agrade::Component //
@@ -92,10 +90,40 @@ Component* Component::operator[](int i) {
     // std::vector should handle any out-of-bounds stuff on its own
     return children[i];
 }
-Component* Component::getMember(std::string &n) {
+
+Component* Component::getChild(int i) {
+    // std::vector should handle any out-of-bounds stuff on its own
+    return children[i];
+}
+
+Component* Component::getChild(std::string &n) {
     for (int i = 0; i < children.size(); ++i) {
         if (children[i]->getName() == n) return children[i];
     }
     throw agrade::componentNotFoundError();
     return nullptr;
+}
+
+
+// Removing/deleting children
+void Component::removeChild(int i) {
+    Component *orphan = children[i];
+    children.erase(children.begin()+i);
+    delete orphan;
+    if (children.empty()) hasChildren = false;
+}
+
+void Component::removeChild(std::string &n) {
+    for (int i = 0; i < children.size(); ++i) {
+        if (children[i]->getName() == n) {
+            Component *orphan = children[i];
+            children.erase(children.begin()+i);
+            delete orphan;
+            if (children.empty()) hasChildren = false;
+            return;
+        }
+    }
+    throw agrade::componentNotFoundError();
+    return;
+
 }

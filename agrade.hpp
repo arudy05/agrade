@@ -13,15 +13,13 @@ namespace agrade
     class ComponentGroup;
 
     class Component{
-        /* each Component object is a graded portion of a ComponentGroup worth a certain amount
-        of that ComponentGroup's final mark. */
+        /* each Component object is a graded portion of a parent Component's grade. */
         std::string name;           // name of the component
         double grade;               // grade assigned to that component
         double weight;              // weight of that component towards the ComponentGroup
 
         /* If a Component's mark is based on the (possibly weighted) average of subcomponents,
-         it is said to have children, in which case hasChildren = true and children is a pointer
-         to a ComponentGroup*/
+         it is said to have children, in which case hasChildren = true and children is not empty */
         bool hasChildren;
         std::vector<Component*> children;   // if hasChildren = false, this is empty
 
@@ -49,8 +47,12 @@ namespace agrade
 
         // Accessing child components ---------------------------------------------------
         Component* operator[](int i);               // by index (operator overload)
-        Component* getMember(std::string &n);       // by component name
-    };
+        Component* getChild(int i);                // by index
+        Component* getChild(std::string &n);       // by component name
 
+        // Removing child components ----------------------------------------------------
+        void removeChild(int i);                    // by index
+        void removeChild(std::string &n);           // by component name
+    };
 }
 #endif
