@@ -8,6 +8,11 @@ int main() {
     course1.addChild("Midterm", 30);
     course1.addChild("Assignments", 20);
 
-    course1.getChild("Midterm")->setGrade(60);
+    Component* mt = course1.getChild(1);
+    mt->setGrade(80);
+
+    Component* final = course1.getChild("Final");
+    final->setGrade(75);
+
     std::cout << course1.getGrade() << std::endl;
 }

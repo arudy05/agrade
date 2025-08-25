@@ -12,13 +12,13 @@ using namespace agrade;
 
 // Constructors
 Component::Component() : name{"default"}, grade{0}, weight{1},
-hasChildren{false}, children{nullptr} {}
+hasChildren{false}, children{} {}
 
 Component::Component(std::string n) : name{n}, grade{0}, weight{1},
-hasChildren{false}, children{nullptr} {}
+hasChildren{false}, children{} {}
 
 Component::Component(std::string n, double w) : name{n}, grade{0}, weight{w},
-hasChildren{false}, children{nullptr} {}
+hasChildren{false}, children{} {}
 
 // "Big 5"
 Component::~Component() {
