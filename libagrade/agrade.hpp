@@ -28,31 +28,33 @@ namespace agrade
 
     public:
         // Constructors -----------------------------------------------------------------
-        Component();                                 // default component name and weight
-        Component(std::string &n);                   // component name with default weight
-        Component(std::string &n, double &w);        // component name with set weight
+        Component();                                // default component name and weight
+        Component(std::string n);                  // component name with default weight
+        Component(std::string n, double w);       // component name with set weight
+        // "Big 5" funcs ----------------------------------------------------------------
+        ~Component();                               // destructor
 
         // Getters and setters ----------------------------------------------------------
         const std::string &getName();               // name
-        void setName(std::string &n);
+        void setName(std::string n);
         const double &getGrade();                   // grade
-        void setGrade(double &g);
+        void setGrade(double g);
         const double &getWeight();                  // weight
-        void setWeight(double &w);
+        void setWeight(double w);
 
         // Adding child components ------------------------------------------------------
         void addChild();                            // each corresponds to a constructor
-        void addChild(std::string &n);
-        void addChild(std::string &n, double &w);
+        void addChild(std::string n);
+        void addChild(std::string n, double w);
 
         // Accessing child components ---------------------------------------------------
         Component* operator[](int i);               // by index (operator overload)
         Component* getChild(int i);                // by index
-        Component* getChild(std::string &n);       // by component name
+        Component* getChild(std::string n);       // by component name
 
         // Removing child components ----------------------------------------------------
         void removeChild(int i);                    // by index
-        void removeChild(std::string &n);           // by component name
+        void removeChild(std::string n);           // by component name
     };
 }
 #endif
