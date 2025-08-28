@@ -13,6 +13,5 @@ target_link_libraries(agrade PUBLIC libagrade)
 
 target_include_directories(agrade PUBLIC
         "${PROJECT_BINARY_DIR}"
-        "${PROJECT_SOURCE_DIR}/libagrade"
 )
 

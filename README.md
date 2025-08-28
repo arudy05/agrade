@@ -1,4 +1,8 @@
 # agrade
-A work-in-progress library for storing information related to keeping track of grades.
+A work-in-progress program for storing information related to keeping track of grades.
 
-Do not expect this to be reliable just yet; I still have some stuff I need/want to work out. I'll probably eventually use this as a basis to make something that replaces my current system of keeping track of my grades (which is a beast of a spreadsheet). 
+There are 2 components:
+- libagrade - the library with functionality for grade data
+- agrade - the actual program (WORK IN PROGRESS)
+
+Do not expect this to be reliable just yet; I still have some stuff I need/want to work out.

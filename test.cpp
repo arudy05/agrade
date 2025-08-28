@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace agrade;
 
+// A quick program to test libagrade functionality
+
 int main() {
     try {
         Component course1 {"Course"};
