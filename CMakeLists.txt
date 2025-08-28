@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(libagrade)
 
-add_executable(agrade main.cpp)
+add_executable(agrade test.cpp)
 
 target_link_libraries(agrade PUBLIC libagrade)
 
